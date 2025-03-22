@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
+  <h1>{% block title %}New Game Entry{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
+    <label for="title">Game Title</label>
     <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
+
+    <label for="publisher">Publisher</label>
+    <input name="publisher" id="publisher" value="{{ request.form['publisher'] }}" required>
+
+    <label for="release">Release Date</label>
+    <input type="date" name="release" id="release" value="{{ request.form['release'] }}" required>
+
+    <label for="art">Upload Box Art:</label>
+    <input type="file" name="art" id="art" accept="image/*" required>
+
     <input type="submit" value="Save">
   </form>
 {% endblock %}
