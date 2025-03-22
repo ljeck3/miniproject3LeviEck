@@ -6,6 +6,8 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
+from datetime import datetime
+
 bp = Blueprint('blog', __name__)
 
 #INDEX
@@ -13,7 +15,7 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, publisher, created, author_id, username'
+        'SELECT p.id, title, publisher, release, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -26,8 +28,8 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         publisher = request.form['publisher']
-        #release = request.form['release']
-        #art = request.form['art']
+        release = request.form.get('release')  # Get date input
+        #image = request.files.get('photo')  # Get uploaded image
 
         error = None
 
@@ -38,10 +40,19 @@ def create():
             flash(error)
         else:
             db = get_db()
+
+            #NEW STUFF
+
+            #CONVERT DATE FROM STRING TO PROPER FORMAT
+            if release:
+                release = datetime.strptime(release, "%Y-%m-%d").date()
+
+
+            #BACK TO OLD STUFF
             db.execute(
-                'INSERT INTO post (title, publisher, author_id)'
-                ' VALUES (?, ?, ?)',
-                (title, publisher, g.user['id'])
+                'INSERT INTO post (title, publisher, release,  author_id)'
+                ' VALUES (?, ?, ?, ?)',
+                (title, publisher, release, g.user['id'])
             )
             db.commit()
             return redirect(url_for('blog.index'))
