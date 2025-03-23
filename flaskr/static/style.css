@@ -1,3 +1,14 @@
+.logout {
+  background-color: #377ba8;
+  padding: 0;
+  border-radius: 25px;
+}
+
+.logout a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
 html {
   font-family: sans-serif;
   background: #eee;
