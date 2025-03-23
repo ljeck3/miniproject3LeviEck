@@ -1,3 +1,4 @@
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -7,8 +8,19 @@ from flaskr.auth import login_required
 from flaskr.db import get_db
 
 from datetime import datetime
+import os
 
 bp = Blueprint('blog', __name__)
+
+#THIS IS FOR IMAGE HANDLING
+#DEFINES UPLOAD FOLDER
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/uploads')
+
+#CHECKS IF FOLDER EXISTS, IF NOT, CREATES IT
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+
 
 #INDEX
 @bp.route('/')
@@ -41,7 +53,8 @@ def create():
         title = request.form['title']
         publisher = request.form['publisher']
         release = request.form.get('release')  # Get date input
-        #image = request.files.get('photo')  # Get uploaded image
+        image = request.files.get('photo')  # Get uploaded image
+
 
         error = None
 
@@ -59,12 +72,23 @@ def create():
             if release:
                 release = datetime.strptime(release, "%Y-%m-%d").date()
 
+            #PHOTO STUFF
+            image_filename = None
+            if not image:
+                print("no image found")
+            if image:
+                print(f"Image detected: {image.filename}")
+                if image.filename != '':
+                    image_filename = image.filename
+                    image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+                    image.save(image_path)  # Save image file
+
 
             #BACK TO OLD STUFF
             db.execute(
-                'INSERT INTO post (title, publisher, release,  author_id)'
-                ' VALUES (?, ?, ?, ?)',
-                (title, publisher, release, g.user['id'])
+                'INSERT INTO post (title, publisher, release, image_filename, author_id)'
+                ' VALUES (?, ?, ?, ?, ?)',
+                (title, publisher, release, image_filename, g.user['id'])
             )
             db.commit()
             return redirect(url_for('blog.index'))

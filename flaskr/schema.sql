@@ -14,5 +14,6 @@ CREATE TABLE post (
   title TEXT NOT NULL,
   publisher TEXT NOT NULL,
   release DATE,
+  image_filename TEXT,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );

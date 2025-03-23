@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     <label for="title">Game Title</label>
     <input name="title" id="title" value="{{ request.form['title'] }}" required>
 
@@ -15,8 +15,8 @@
     <label for="release">Release Date</label>
     <input type="date" name="release" id="release" value="{{ request.form['release'] }}" required>
 
-    <label for="art">Upload Box Art:</label>
-    <input type="file" name="art" id="art" accept="image/*">
+    <label for="photo">Upload Box Art:</label>
+    <input type="file" name="photo" id="photo" accept="image/*">
 
 
     <input type="submit" value="Save">
