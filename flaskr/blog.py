@@ -21,6 +21,18 @@ def index():
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
 
+#INDEX 2
+@bp.route('/index_pub')
+def index_pub():
+    db = get_db()
+    #ORDER TESTING
+    posts = db.execute(
+        'SELECT p.id, title, publisher, release, created, author_id, username'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' ORDER BY publisher DESC'
+    ).fetchall()
+    return render_template('blog/index.html', posts=posts)
+
 #CREATE
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required

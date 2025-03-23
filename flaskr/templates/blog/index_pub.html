@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}My Games{% endblock %}</h1>
+  <h1>{% block title %}THIS IS A DIFFERENT PAGE{% endblock %}</h1>
   <!--NEW BUTTON-->
   {% if g.user %}
     <a class="action" href="{{ url_for('blog.index_pub') }}">Sort by Publisher</a>
