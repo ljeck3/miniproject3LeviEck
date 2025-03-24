@@ -9,7 +9,7 @@ I,     Levi Eck    , affirm that the work submitted for this assignment is entir
 ### Mini Project 3
 
 
-# Video Game Collection Library
+# Flaskr Personal Game Library
 
 Keep track of the video games you own!
 
@@ -26,6 +26,11 @@ pip install -r requirements.txt
 ```
 
 ### Executing program
+Initialize the database:
+```
+flask --app flaskr init-db
+``````
+Run the program:
 ```
 flask --app flaskr run
 ``````
@@ -39,4 +44,4 @@ Levi Eck
 Inspiration, code snippets, etc.
 * [Flaskr](https://flask.palletsprojects.com/en/stable/)
 * [Flaskr Blog Tutorial](https://flask.palletsprojects.com/en/stable/tutorial/)
-* 
+* [ChatGPT Troubleshooting](https://chatgpt.com/share/67e0c9f9-dabc-8001-b093-3e5367ac3deb)
