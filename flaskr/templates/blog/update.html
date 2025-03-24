@@ -1,3 +1,13 @@
+<!--
+INF601 - Advanced Programming in Python
+Assignment: Mini Project 3
+I,     Levi Eck    , affirm that the work submitted for this assignment is entirely my own. I have not engaged in any form of academic dishonesty, including but not limited to cheating, plagiarism, or the use of unauthorized materials. I have neither provided nor received unauthorized assistance and have accurately cited all sources in adherence to academic standards. I understand that failing to comply with this integrity statement may result in consequences, including disciplinary actions as determined by my course instructor and outlined in institutional policies. By signing this statement, I acknowledge my commitment to upholding the principles of academic integrity.
+
+INF601 - Advanced Programming in Python
+Levi Eck
+Mini Project 3
+-->
+
 {% extends 'base.html' %}
 
 {% block header %}
@@ -24,7 +34,35 @@
     <input type="submit" value="Save">
   </form>
   <hr>
-  <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
-    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
-  </form>
+
+
+  <!-- Button to trigger modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ post['id'] }}">
+  Delete
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal{{ post['id'] }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Confirm Deletion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this post?
+      </div>
+      <div class="modal-footer">
+        <!-- Close Button -->
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+        <!-- Delete Form -->
+        <form action="{{ url_for('blog.delete', id=post['id']) }}" method="post">
+          <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
