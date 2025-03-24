@@ -18,6 +18,9 @@
     <input type="date" name="release" id="release"
       value="{{ request.form['release'] or post['release'] }}" required>
 
+    <label for="photo">Change Box Art:</label>
+    <input type="file" name="photo" id="photo" accept="image/*">
+
     <input type="submit" value="Save">
   </form>
   <hr>

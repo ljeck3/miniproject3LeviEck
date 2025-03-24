@@ -65,8 +65,8 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         publisher = request.form['publisher']
-        release = request.form.get('release')  # Get date input
-        image = request.files.get('photo')  # Get uploaded image
+        release = request.form.get('release')
+        image = request.files.get('photo')
 
 
         error = None
@@ -111,7 +111,7 @@ def create():
 #UPDATE
 def get_post(id, check_author=True):
     post = get_db().execute(
-        'SELECT p.id, title, publisher, created, author_id, username'
+        'SELECT p.id, title, publisher, release, image_filename, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id = ?',
         (id,)
@@ -134,6 +134,9 @@ def update(id):
     if request.method == 'POST':
         title = request.form['title']
         publisher = request.form['publisher']
+        release = request.form.get('release')
+        image = request.files.get('photo')
+
         error = None
 
         if not title:
@@ -143,10 +146,22 @@ def update(id):
             flash(error)
         else:
             db = get_db()
+
+            # PHOTO STUFF
+            image_filename = None
+            if not image:
+                print("no image found")
+            if image:
+                print(f"Image detected: {image.filename}")
+                if image.filename != '':
+                    image_filename = image.filename
+                    image_path = os.path.join(UPLOAD_FOLDER, image_filename)
+                    image.save(image_path)  # Save image file
+
             db.execute(
-                'UPDATE post SET title = ?, publisher = ?'
+                'UPDATE post SET title = ?, publisher = ?, release = ?, image_filename = ?'
                 ' WHERE id = ?',
-                (title, publisher, id)
+                (title, publisher, release, image_filename, id)
             )
             db.commit()
             return redirect(url_for('blog.index'))
