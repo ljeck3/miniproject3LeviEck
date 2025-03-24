@@ -20,7 +20,7 @@ bp = Blueprint('blog', __name__)
 
 #THIS IS FOR IMAGE HANDLING
 #DEFINES UPLOAD FOLDER
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static/uploads')
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'flaskr/static/uploads')
 
 #CHECKS IF FOLDER EXISTS, IF NOT, CREATES IT
 if not os.path.exists(UPLOAD_FOLDER):
@@ -35,7 +35,7 @@ def index():
         return redirect(url_for('auth.login'))
     db = get_db()
     posts = db.execute(
-        '''SELECT p.id, p.title, p.publisher, p.release, p.author_id, p.created
+        '''SELECT p.id, p.title, p.publisher, p.release, p.image_filename, p.author_id, p.created
            FROM post p
            WHERE p.author_id = ?
            ORDER BY p.created DESC''',
@@ -50,9 +50,11 @@ def index_pub():
     db = get_db()
     #ORDER TESTING
     posts = db.execute(
-        'SELECT p.id, title, publisher, release, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' ORDER BY publisher DESC'
+        '''SELECT p.id, p.title, p.publisher, p.release, p.image_filename, p.author_id, p.created
+           FROM post p
+           WHERE p.author_id = ?
+           ORDER BY publisher DESC''',
+        (g.user['id'],)
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
 

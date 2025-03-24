@@ -32,6 +32,7 @@
         </header>
         <p class="publisher">{{ post['publisher'] }}</p>
         <p class="publisher">{{ post['release'] }}</p>
+        <img style="max-width: 200px; max-height: 200px" src="./static/uploads/{{post['image_filename']}}" alt="{{post['image_filename']}}">
       </article>
       {% if not loop.last %}
         <hr>
